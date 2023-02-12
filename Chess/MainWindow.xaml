@@ -1,0 +1,166 @@
+﻿<Window x:Class="Chess.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chess"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" 
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="JustButtons" >
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Margin="0" Background="LightCyan">
+                            <Border BorderBrush="Black" BorderThickness="2"/>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ButtonExit" >
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Margin="0" Background="LightGray">
+                            <Border BorderBrush="Black" BorderThickness="0"/>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type CheckBox}" x:Key="CheckBox_RadioButtonStyle">
+            <Setter Property="Foreground" 
+                    Value="Black"/>
+            <Setter Property="Background" Value="#F4F4F4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="1" SnapsToDevicePixels="True" 
+                                               Stroke="Black" 
+                                               StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tick" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Ellipse x:Name="blackframe" Stroke="Black" Fill="Black" Width="16" Height="16"/>
+                            <Ellipse x:Name="background" Margin="2" Fill="AliceBlue" Width="12" Height="12"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="5,0,0,0"/>
+                            <Path x:Name="tick" Fill="Black" Data="F1 M 4.325,7.852 C 4.175,7.852 4.026,7.807 3.900,7.720 L 0.325,5.262 C -0.016,5.027 -0.103,4.560 0.132,4.219 C 0.367,3.877 0.833,3.792 1.175,4.025 L 4.091,6.030 L 7.478,0.365 C 7.690,0.010 8.151,-0.107 8.506,0.106 C 8.861,0.319 8.978,0.779 8.765,1.135 L 4.969,7.486 C 4.863,7.664 4.688,7.790 4.485,7.834 C 4.432,7.846 4.378,7.852 4.325,7.852 L 4.325,7.852 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" Content="Ядерные шахматы" FontSize="62" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Border VerticalAlignment="Top" Padding="20" HorizontalAlignment="Left">
+            <Button x:Name="btnExit" Content="Выйти" FontSize="35" Style="{StaticResource ButtonExit}" 
+                    Click="btnExit_Click" Margin="5"/>
+        </Border>
+        
+
+
+        <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="50">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Выберите дополнения к игре:" FontSize="32"/>
+
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="2" Margin="0 10 0 10">
+                <StackPanel>
+                    <StackPanel Height="32" Margin="20" Name="StackPanel5" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel5}">
+                            <CheckBox Content="Баллистическая ракета" IsChecked="False" x:Name="cbMissile"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>
+                    <StackPanel Height="32" Margin="20" Name="StackPanel3" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel3}">
+                            <CheckBox Content="Военная полиция" IsChecked="False" x:Name="cbInquisition"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>
+                    <StackPanel Height="32" Margin="20" Name="StackPanel4" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel4}">
+                            <CheckBox Content="Коммандор" IsChecked="False" x:Name="cbCommander"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>
+                    <!--<StackPanel Height="32" Margin="20" Name="StackPanel1" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel1}">
+                            <CheckBox Content="Предатель" IsChecked="False" x:Name="cbTraitor"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>-->
+                    <StackPanel Height="32" Margin="20" Name="StackPanel2" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel2}">
+                            <CheckBox Content="Танк" IsChecked="False" x:Name="cbTank"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>
+                    <StackPanel Height="32" Margin="20" Name="StackPanel6" Orientation="Horizontal">
+                        <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel6}">
+                            <CheckBox Content="Танк + Мины" IsChecked="False" x:Name="cbTankMines"
+                                      Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
+                        </Viewbox>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+
+            <Button Grid.Row="2" x:Name="btnPlay" FontSize="32" Content="Играть" Click="btnPlay_Click"
+                    Style="{StaticResource JustButtons}"/>
+        </Grid>
+
+    </Grid>
+</Window>
