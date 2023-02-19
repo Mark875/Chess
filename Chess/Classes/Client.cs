@@ -49,7 +49,7 @@ namespace Chess.Classes
             { "inquisition", "П" },
             { "pawn", "" }
         };
-        Dictionary<string, string> figures = new Dictionary<string, string>()
+        private Dictionary<string, string> figures = new Dictionary<string, string>()
         {
             { "a1", "rook_white" }, { "b1", "knight_white" }, { "c1", "bishop_white" }, { "d1", "queen_white" }, { "e1", "king_white" }, { "f1", "bishop_white" }, { "g1", "knight_white" }, { "h1", "rook_white" },
             { "a2", "pawn_white" }, { "b2", "pawn_white" },   { "c2", "pawn_white" },   { "d2", "pawn_white" },  { "e2", "pawn_white" }, { "f2", "pawn_white" },   { "g2", "pawn_white" },   { "h2", "pawn_white" },
@@ -60,8 +60,14 @@ namespace Chess.Classes
             { "a7", "pawn_black" }, { "b7", "pawn_black" },   { "c7", "pawn_black" },   { "d7", "pawn_black" },  { "e7", "pawn_black" }, { "f7", "pawn_black" },   { "g7", "pawn_black" },   { "h7", "pawn_black" },
             { "a8", "rook_black" }, { "b8", "knight_black" }, { "c8", "bishop_black" }, { "d8", "queen_black" }, { "e8", "king_black" }, { "f8", "bishop_black" }, { "g8", "knight_black" }, { "h8", "rook_black" },
         };
+        private List<string> enemyMines = new List<string>();
 
+        public ManualResetEvent AddMineResetEvent = new ManualResetEvent(false);
+        public ManualResetEvent LoadWindowResetEvent = new ManualResetEvent(false);
+        public bool CanChooseMines { get; set; }
+        public string Extra_figure { get; set; }
         public bool IsInquisitionInGame { get; set; }
+        public List<string> Mines { get; set; } = new List<string>();
         public GameWindow Window { get { return window; } set { window = value; } }
         public GameWindowBlack WindowBlack { get { return windowBlack; } set { windowBlack = value; } }
         public Color MyColor { get { return myColor; } }
@@ -745,6 +751,7 @@ namespace Chess.Classes
 
         public void StartPlaying(string mode)
         {
+            Extra_figure = mode;
             socket.Send(Encoding.ASCII.GetBytes("Play " + mode));
             Thread receiverThread = new Thread(() =>
             {
@@ -801,6 +808,18 @@ namespace Chess.Classes
                     {
                         ReceiveTraitors(message);
                     }
+                    else if (message == "CHOOSE MINES")
+                    {
+                        ChooseMines();
+                    }
+                    else if (message == "Wait mines")
+                    {
+                        WaitMines();
+                    }
+                    else if (message.Contains("EnemyMines"))
+                    {
+                        ReceiveMines(message);
+                    }
                 }
             });
 
@@ -808,6 +827,34 @@ namespace Chess.Classes
         }
 
         #region Receive
+        private void WaitMines()
+        {
+            LoadWindowResetEvent.WaitOne();
+            if (myColor == Color.White)
+            {
+                window.Dispatcher.BeginInvoke((Action)(() => window.WaitMines()));
+            }
+            else
+            {
+                windowBlack.Dispatcher.BeginInvoke((Action)(() => windowBlack.WaitMines()));
+            }
+        }
+        private void ReceiveMines(string message)
+        {
+            string[] words = message.Split();
+            enemyMines.Add(words[1]);
+            enemyMines.Add(words[2]);
+        }
+        private void ChooseMines()
+        {
+            CanChooseMines = true;
+            AddMineResetEvent.WaitOne();
+            AddMineResetEvent.Reset();
+            AddMineResetEvent.WaitOne();
+            AddMineResetEvent.Reset();
+            CanChooseMines = false;
+            Send($"Mines {Mines[0]} {Mines[1]}");
+        }
         private void Checkmate(Color color)
         {
             if (myColor == Color.White)
@@ -868,7 +915,14 @@ namespace Chess.Classes
         private void ReceiveMove(string message)
         {
             isMyMove = message.Split()[1] == (myColor == Color.White ? "white" : "black");
-            if (isMyMove) moveResetEvent.Set();
+            if (isMyMove)
+            {
+                if (myColor == Color.White && move == 1 && Mines.Count > 0)
+                {
+                    window.Dispatcher.BeginInvoke((Action)(() => window.CanMove()));
+                }
+                moveResetEvent.Set();
+            }
         }
         private void ReceiveTraitors(string message)
         {

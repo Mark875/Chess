@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
 using Chess.Classes;
+using Chess.Windows;
 
 namespace Chess
 {
@@ -46,6 +47,8 @@ namespace Chess
             imgKnight.Source = new BitmapImage(new Uri(path + "knight_white.png"));
             UpdateDesk();
             btnA8.BorderBrush = new SolidColorBrush(Colors.Yellow);
+            WriteMode(client.Extra_figure);
+            client.LoadWindowResetEvent.Set();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -125,6 +128,32 @@ namespace Chess
             }
         }
 
+        private void WriteMode(string extra)
+        {
+            switch (extra)
+            {
+                case "tank":
+                    lblMode.Content = "Танк";
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "missile":
+                    lblMode.Content = "Ракета";
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "inquisition":
+                    lblMode.Content = "Полиция";
+                    break;
+                case "tankmines":
+                    lblMode.Content = "Танк + Мины";
+                    minesCellsSection.Visibility = Visibility.Visible;
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "":
+                    lblMode.Content = "Классический";
+                    break;
+            }
+        }
+
         public void MbShow(string message)
         {
             MessageBox.Show(this, message, "Изменение фигуры", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -186,12 +215,43 @@ namespace Chess
 
         private void btnRules_Click(object sender, RoutedEventArgs e)
         {
-
+            new RulesWindow().ShowDialog();
         }
 
         private void btn_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("RIGHTCLICK");
+            if (!client.CanChooseMines) return;
+            if (client.Mines.Count < 2)
+            {
+                string cell = (sender as Button).DataContext.ToString();
+                if (Convert.ToInt32(cell[1]) < 6 && !client.Mines.Contains(cell))
+                {
+                    client.Mines.Add(cell);
+                    if (client.Mines.Count == 1)
+                    {
+                        lblMine1.Content = $"1. {cell}";
+                    }
+                    else
+                    {
+                        lblMine2.Content = $"2. {cell}";
+                    }
+                    client.AddMineResetEvent.Set();
+                }
+            }
+        }
+
+        public void CanMove()
+        {
+            MessageBox.Show(this, "Противник расставил мины. Ваш ход.");
+        }
+        public void WaitMines()
+        {
+            MessageBox.Show(this, "Противник расставляет мины...");
+        }
+
+        public void ChooseMines()
+        {
+            MessageBox.Show(this, "Расставьте мины. Для того, чтобы поставить мину, нажмите правой кнопкой мыши на нужную клетку.");
         }
     }
 }

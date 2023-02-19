@@ -52,10 +52,10 @@ namespace Chess
             {
                 extra = "inquisition";
             }
-            else if ((bool)cbTraitor.IsChecked)
-            {
-                extra = "traitor";
-            }
+            //else if ((bool)cbTraitor.IsChecked)
+            //{
+            //    extra = "traitor";
+            //}
             else if ((bool)cbTankMines.IsChecked)
             {
                 extra = "tankmines";
@@ -66,7 +66,6 @@ namespace Chess
             searchWindow.MainWindow = this;
             searchWindow.getClientResetEvent.Set();
             this.Visibility = Visibility.Collapsed;
-
 
             bool a = (bool)searchWindow.ShowDialog();
             if (!a)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess"
         mc:Ignorable="d"
-        Title="GameWindow" 
+        Title="Игра за белых" 
         Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}"
         WindowState="Maximized"
@@ -88,7 +88,7 @@
         </Grid.ColumnDefinitions>
 
         <Popup x:Name="pFigure" IsOpen="False" Placement="Mouse" StaysOpen="True" PopupAnimation="None"
-                AllowsTransparency="True" Width="370" Height="92">
+                AllowsTransparency="True" Width="325" Height="82">
             <Border BorderBrush="Black" BorderThickness="2">
                 <Grid ShowGridLines="False">
                     <Grid.ColumnDefinitions>
@@ -129,32 +129,33 @@
                         VerticalAlignment="Center">
                 <Border BorderBrush="Black" BorderThickness="1">
                     <StackPanel>
-                        <Label Content="Режим игры: " FontSize="25" Margin="2 5 2 5"/>
-                        <Label Content="" FontSize="26" Margin="2 5 2 5"/>
+                        <Label Content="Режим игры: " FontSize="25" Margin="2 5 2 5" HorizontalAlignment="Center"/>
+                        <Label Content="Классический" FontSize="26" Margin="2 5 2 5" HorizontalAlignment="Center"
+                               Name="lblMode"/>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="Black" BorderThickness="1">
+                <Border BorderBrush="Black" BorderThickness="1" Name="minesCellsSection" Visibility="Collapsed">
                     <StackPanel>
                         <Label Content="Клетки с минами:" FontSize="25" Margin="0 5 0 5"/>
-                        <Label Content="1. " FontSize="25" Margin="2"/>
-                        <Label Content="2. " FontSize="25" Margin="2"/>
+                        <Label Content="1. " FontSize="25" Margin="2" Name="lblMine1"/>
+                        <Label Content="2. " FontSize="25" Margin="2" Name="lblMine2"/>
                     </StackPanel>
 
                 </Border>
 
-                <Border BorderBrush="Black" BorderThickness="1" Padding="10">
+                <Border BorderBrush="Black" BorderThickness="1" Padding="10" Name="movesTillNewFigure" Visibility="Collapsed">
                     <StackPanel>
                         <TextBlock Text="Ходов до появления новой фигуры:" FontSize="25" TextWrapping="Wrap"
-                           Margin="2"/>
+                           Margin="2" HorizontalAlignment="Center"/>
                         <Label Content="5" FontSize="25" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
-                
+
                 <Button x:Name="btnRules" Style="{StaticResource RulesButton}"
                         FontSize="25" Content="Правила" Click="btnRules_Click"/>
             </StackPanel>
-            
+
             <Grid Width="800" Height="800" ShowGridLines="False" HorizontalAlignment="Right"
               Margin="10" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -171,16 +172,16 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.6*"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="52*"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="86.957"/>
+                    <RowDefinition Height="87.005"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="87*"/>
+                    <RowDefinition Height="52*"/>
                 </Grid.RowDefinitions>
 
                 <!--Обозначения-->
@@ -255,8 +256,7 @@
 
                 <!--Ряд 8-->
                 <Button x:Name="btnA8" Background="#fbe2c3" DataContext="a8"
-                    Grid.Row="1" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click"
-                        MouseRightButtonDown="btn_MouseRightButtonDown">
+                    Grid.Row="1" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click">
                     <Image x:Name="imgA8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button x:Name="btnB8" Background="#d27106" DataContext="b8"
@@ -358,176 +358,216 @@
 
                 <!--Ряд 5-->
                 <Button x:Name="btnA5" Background="#d27106" DataContext="a5"
-                    Grid.Row="4" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgA5"/>
                 </Button>
                 <Button x:Name="btnB5" Background="#fbe2c3" DataContext="b5"
-                    Grid.Row="4" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgB5"/>
                 </Button>
                 <Button x:Name="btnC5" Background="#d27106" DataContext="c5"
-                    Grid.Row="4" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgC5"/>
                 </Button>
                 <Button x:Name="btnD5" Background="#fbe2c3" DataContext="d5"
-                    Grid.Row="4" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgD5"/>
                 </Button>
                 <Button x:Name="btnE5" Background="#d27106" DataContext="e5"
-                    Grid.Row="4" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgE5"/>
                 </Button>
                 <Button x:Name="btnF5" Background="#fbe2c3" DataContext="f5"
-                    Grid.Row="4" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgF5"/>
                 </Button>
                 <Button x:Name="btnG5" Background="#d27106" DataContext="g5"
-                    Grid.Row="4" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgG5"/>
                 </Button>
                 <Button x:Name="btnH5" Background="#fbe2c3" DataContext="h5"
-                    Grid.Row="4" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="4" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgH5"/>
                 </Button>
 
                 <!--Ряд 4-->
                 <Button x:Name="btnA4" Background="#fbe2c3" DataContext="a4"
-                    Grid.Row="5" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgA4"/>
                 </Button>
                 <Button x:Name="btnB4" Background="#d27106" DataContext="b4"
-                    Grid.Row="5" Grid.Column="2" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="2" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgB4"/>
                 </Button>
                 <Button x:Name="btnC4" Background="#fbe2c3" DataContext="c4"
-                    Grid.Row="5" Grid.Column="3" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="3" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgC4"/>
                 </Button>
                 <Button x:Name="btnD4" Background="#d27106" DataContext="d4"
-                    Grid.Row="5" Grid.Column="4" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="4" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgD4"/>
                 </Button>
                 <Button x:Name="btnE4" Background="#fbe2c3" DataContext="e4"
-                    Grid.Row="5" Grid.Column="5" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="5" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgE4"/>
                 </Button>
                 <Button x:Name="btnF4" Background="#d27106" DataContext="f4"
-                    Grid.Row="5" Grid.Column="6" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="6" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgF4"/>
                 </Button>
                 <Button x:Name="btnG4" Background="#fbe2c3" DataContext="g4"
-                    Grid.Row="5" Grid.Column="7" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="7" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgG4"/>
                 </Button>
                 <Button x:Name="btnH4" Background="#d27106" DataContext="h4"
-                    Grid.Row="5" Grid.Column="8" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="5" Grid.Column="8" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgH4"/>
                 </Button>
 
                 <!--Ряд 3-->
                 <Button x:Name="btnA3" Background="#d27106" DataContext="a3"
-                    Grid.Row="6" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgA3"/>
                 </Button>
                 <Button x:Name="btnB3" Background="#fbe2c3" DataContext="b3"
-                    Grid.Row="6" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgB3"/>
                 </Button>
                 <Button x:Name="btnC3" Background="#d27106" DataContext="c3"
-                    Grid.Row="6" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgC3"/>
                 </Button>
                 <Button x:Name="btnD3" Background="#fbe2c3" DataContext="d3"
-                    Grid.Row="6" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgD3"/>
                 </Button>
                 <Button x:Name="btnE3" Background="#d27106" DataContext="e3"
-                    Grid.Row="6" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgE3"/>
                 </Button>
                 <Button x:Name="btnF3" Background="#fbe2c3" DataContext="f3"
-                    Grid.Row="6" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgF3"/>
                 </Button>
                 <Button x:Name="btnG3" Background="#d27106" DataContext="g3"
-                    Grid.Row="6" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgG3"/>
                 </Button>
                 <Button x:Name="btnH3" Background="#fbe2c3" DataContext="h3"
-                    Grid.Row="6" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="6" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgH3"/>
                 </Button>
 
                 <!--Ряд 2-->
                 <Button x:Name="btnA2" Background="#fbe2c3" DataContext="a2"
-                    Grid.Row="7" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="1" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgA2"/>
                 </Button>
                 <Button x:Name="btnB2" Background="#d27106" DataContext="b2"
-                    Grid.Row="7" Grid.Column="2" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="2" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgB2"/>
                 </Button>
                 <Button x:Name="btnC2" Background="#fbe2c3" DataContext="c2"
-                    Grid.Row="7" Grid.Column="3" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="3" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgC2"/>
                 </Button>
                 <Button x:Name="btnD2" Background="#d27106" DataContext="d2"
-                    Grid.Row="7" Grid.Column="4" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="4" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgD2"/>
                 </Button>
                 <Button x:Name="btnE2" Background="#fbe2c3" DataContext="e2"
-                    Grid.Row="7" Grid.Column="5" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="5" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgE2"/>
                 </Button>
                 <Button x:Name="btnF2" Background="#d27106" DataContext="f2"
-                    Grid.Row="7" Grid.Column="6" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="6" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgF2"/>
                 </Button>
                 <Button x:Name="btnG2" Background="#fbe2c3" DataContext="g2"
-                    Grid.Row="7" Grid.Column="7" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="7" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgG2"/>
                 </Button>
                 <Button x:Name="btnH2" Background="#d27106" DataContext="h2"
-                    Grid.Row="7" Grid.Column="8" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="7" Grid.Column="8" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgH2"/>
                 </Button>
 
                 <!--Ряд 1-->
                 <Button x:Name="btnA1" Background="#d27106" DataContext="a1"
-                    Grid.Row="8" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="1" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgA1"/>
                 </Button>
                 <Button x:Name="btnB1" Background="#fbe2c3" DataContext="b1"
-                    Grid.Row="8" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="2" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgB1"/>
                 </Button>
                 <Button x:Name="btnC1" Background="#d27106" DataContext="c1"
-                    Grid.Row="8" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="3" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgC1"/>
                 </Button>
                 <Button x:Name="btnD1" Background="#fbe2c3" DataContext="d1"
-                    Grid.Row="8" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="4" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgD1"/>
                 </Button>
                 <Button x:Name="btnE1" Background="#d27106" DataContext="e1"
-                    Grid.Row="8" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="5" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgE1"/>
                 </Button>
                 <Button x:Name="btnF1" Background="#fbe2c3" DataContext="f1"
-                    Grid.Row="8" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="6" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgF1"/>
                 </Button>
                 <Button x:Name="btnG1" Background="#d27106" DataContext="g1"
-                    Grid.Row="8" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="7" Style="{StaticResource BlackCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgG1"/>
                 </Button>
                 <Button x:Name="btnH1" Background="#fbe2c3" DataContext="h1"
-                    Grid.Row="8" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click">
+                    Grid.Row="8" Grid.Column="8" Style="{StaticResource WhiteCell}" Click="Button_Click"
+                        MouseRightButtonDown="btn_MouseRightButtonDown">
                     <Image x:Name="imgH1"/>
                 </Button>
             </Grid>
         </Grid>
-        
+
 
         <Grid Grid.Column="1" ShowGridLines="False">
             <Grid.RowDefinitions>
@@ -548,7 +588,7 @@
                     <TextBlock x:Name="tbCurrentMove" Text="Ход белых" FontSize="40"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Border>
-                
+
                 <TextBlock Grid.Row="1" Text="Ходы:" FontSize="30" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
                 <Border BorderBrush="Black" BorderThickness="2" Grid.Row="2" Margin="20" Padding="10">
@@ -572,5 +612,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
 </Window>

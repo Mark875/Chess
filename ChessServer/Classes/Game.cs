@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ChessServer.Classes
 {
@@ -137,12 +138,8 @@ namespace ChessServer.Classes
                 { "a8", player_black.Figures[0] }, { "b8", player_black.Figures[1] },   { "c8", player_black.Figures[2] },   { "d8", player_black.Figures[3] },  { "e8", player_black.Figures[4] }, { "f8", player_black.Figures[5] },   { "g8", player_black.Figures[6] },   { "h8", player_black.Figures[7] },
             };
 
-
+            UpdateAllHitCells();
             move = 1;
-            if (extra_figure == "tankmines")
-            {
-                Send(players, "CHOOSE MINES");
-            }
             if (extra_figure == "inquisition")
             {
                 int fig1 = player_white.Figures.IndexOf(player_white.Figures.Find(x => x.Type == FigureType.Bishop));
@@ -153,9 +150,27 @@ namespace ChessServer.Classes
 
                 figures[player_white.Figures[fig1].Cell] = player_white.Figures[fig1];
                 figures[player_black.Figures[fig2].Cell] = player_black.Figures[fig2];
-                Send(players, $"Figure inquisition {player_white.Figures[fig1].Cell} {player_black.Figures[fig2].Cell}");
+                //Send(players, $"Figure inquisition {player_white.Figures[fig1].Cell} {player_black.Figures[fig2].Cell}");
             }
-            UpdateAllHitCells();
+            if (extra_figure == "tankmines")
+            {
+                Send(player_white, "CHOOSE MINES");
+                Send(player_black, "Wait mines");
+                ReceiveMessageResetEvent.WaitOne();
+                ReceiveMessageResetEvent.Reset();
+                string[] words = Message.Split();
+                mines.Add(words[1], Color.White);
+                mines.Add(words[2], Color.White);
+                Send(player_white, "Wait mines");
+                Send(player_black, $"EnemyMines {words[1]} {words[2]}");
+                Send(player_black, $"CHOOSE MINES");
+                ReceiveMessageResetEvent.WaitOne();
+                ReceiveMessageResetEvent.Reset();
+                words = Message.Split();
+                mines.Add(words[1], Color.Black);
+                mines.Add(words[2], Color.Black);
+                Send(player_white, $"EnemyMines {words[1]} {words[2]}");
+            }
             while (!gameOver && ContinuePlaying)
             {
                 Move(player_white, player_black);

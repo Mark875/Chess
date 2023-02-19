@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Destroyer.cs" />
     <Compile Include="Classes\Enums.cs" />
     <Compile Include="Classes\Figure.cs" />
     <Compile Include="Classes\Game.cs" />

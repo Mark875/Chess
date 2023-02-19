@@ -43,6 +43,8 @@ namespace Chess
             imgBishop.Source = new BitmapImage(new Uri(path + "bishop_black.png"));
             imgKnight.Source = new BitmapImage(new Uri(path + "knight_black.png"));
             UpdateDesk();
+            WriteMode(client.Extra_figure);
+            client.LoadWindowResetEvent.Set();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -96,6 +98,32 @@ namespace Chess
             else
             {
                 tbCurrentMove.Text = "Ход белых";
+            }
+        }
+
+        private void WriteMode(string extra)
+        {
+            switch (extra)
+            {
+                case "tank":
+                    lblMode.Content = "Танк";
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "missile":
+                    lblMode.Content = "Ракета";
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "inquisition":
+                    lblMode.Content = "Полиция";
+                    break;
+                case "tankmines":
+                    lblMode.Content = "Танк + Мины";
+                    minesCellsSection.Visibility = Visibility.Visible;
+                    movesTillNewFigure.Visibility = Visibility.Visible;
+                    break;
+                case "":
+                    lblMode.Content = "Классический";
+                    break;
             }
         }
 
@@ -156,6 +184,42 @@ namespace Chess
         public bool AskForDraw()
         {
             return MessageBox.Show(this, "Противник предлагает ничью", "Ничья?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+        }
+
+        private void btnRules_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!client.CanChooseMines) return;
+            if (client.Mines.Count < 2)
+            {
+                string cell = (sender as Button).DataContext.ToString();
+                if (Convert.ToInt32(cell[1]) > 4 && !client.Mines.Contains(cell))
+                {
+                    client.Mines.Add(cell);
+                    if (client.Mines.Count == 1)
+                    {
+                        lblMine1.Content = $"1. {cell}";
+                    }
+                    else
+                    {
+                        lblMine2.Content = $"2. {cell}";
+                    }
+                }
+            }
+        }
+
+        public void WaitMines()
+        {
+            MessageBox.Show(this, "Противник расставляет мины...");
+        }
+
+        public void ChooseMines()
+        {
+            MessageBox.Show(this, "Расставьте мины. Для того, чтобы поставить мину, нажмите правой кнопкой мыши на нужную клетку.");
         }
     }
 }
