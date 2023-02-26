@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Chess"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" 
+        Title="Шахматы" 
         Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         WindowState="Maximized"
@@ -41,7 +41,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
         <Style TargetType="{x:Type CheckBox}" x:Key="CheckBox_RadioButtonStyle">
             <Setter Property="Foreground" 
                     Value="Black"/>
@@ -90,6 +90,65 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="InfoButtons" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                                        ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="Blue"/>
+                                        <GradientStop Offset="0.3" Color="Blue"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -114,8 +173,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Label Content="Выберите дополнения к игре:" FontSize="32"/>
+            <Label Content="Выберите дополнение к игре:" FontSize="32"/>
 
+            
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="2" Margin="0 10 0 10">
                 <StackPanel>
                     <StackPanel Height="32" Margin="20" Name="StackPanel5" Orientation="Horizontal">
@@ -123,19 +183,25 @@
                             <CheckBox Content="Баллистическая ракета" IsChecked="False" x:Name="cbMissile"
                                       Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
                         </Viewbox>
+                        <Button Content="i" Style="{StaticResource InfoButtons}" FontSize="20" HorizontalAlignment="Right" Height="25" Margin="10, 0, 0, 0"
+                                Foreground="White" Width="25"/>
                     </StackPanel>
                     <StackPanel Height="32" Margin="20" Name="StackPanel3" Orientation="Horizontal">
                         <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel3}">
                             <CheckBox Content="Военная полиция" IsChecked="False" x:Name="cbInquisition"
                                       Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
                         </Viewbox>
+                        <Button Content="i" Style="{StaticResource InfoButtons}" FontSize="20" HorizontalAlignment="Right" Height="25" Margin="10, 0, 0, 0"
+                                Foreground="White" Width="25"/>
                     </StackPanel>
-                    <StackPanel Height="32" Margin="20" Name="StackPanel4" Orientation="Horizontal">
+                    <!--<StackPanel Height="32" Margin="20" Name="StackPanel4" Orientation="Horizontal">
                         <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel4}">
                             <CheckBox Content="Коммандор" IsChecked="False" x:Name="cbCommander"
                                       Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
                         </Viewbox>
-                    </StackPanel>
+                        <Button Content="i" Style="{StaticResource InfoButtons}" FontSize="20" HorizontalAlignment="Right" Height="25" Margin="10, 0, 0, 0"
+                                Foreground="White" Width="25"/>
+                    </StackPanel>-->
                     <!--<StackPanel Height="32" Margin="20" Name="StackPanel1" Orientation="Horizontal">
                         <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel1}">
                             <CheckBox Content="Предатель" IsChecked="False" x:Name="cbTraitor"
@@ -147,12 +213,16 @@
                             <CheckBox Content="Танк" IsChecked="False" x:Name="cbTank"
                                       Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
                         </Viewbox>
+                        <Button Content="i" Style="{StaticResource InfoButtons}" FontSize="20" HorizontalAlignment="Right" Height="25" Margin="10, 0, 0, 0"
+                                Foreground="White" Width="25"/>
                     </StackPanel>
                     <StackPanel Height="32" Margin="20" Name="StackPanel6" Orientation="Horizontal">
                         <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel6}">
                             <CheckBox Content="Танк + Мины" IsChecked="False" x:Name="cbTankMines"
                                       Style="{StaticResource CheckBox_RadioButtonStyle}" Click="ComboboxClicked"/>
                         </Viewbox>
+                        <Button Content="i" Style="{StaticResource InfoButtons}" FontSize="20" HorizontalAlignment="Right" Height="25" Margin="10, 0, 0, 0"
+                                Foreground="White" Width="25"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

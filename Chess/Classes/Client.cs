@@ -60,7 +60,6 @@ namespace Chess.Classes
             { "a7", "pawn_black" }, { "b7", "pawn_black" },   { "c7", "pawn_black" },   { "d7", "pawn_black" },  { "e7", "pawn_black" }, { "f7", "pawn_black" },   { "g7", "pawn_black" },   { "h7", "pawn_black" },
             { "a8", "rook_black" }, { "b8", "knight_black" }, { "c8", "bishop_black" }, { "d8", "queen_black" }, { "e8", "king_black" }, { "f8", "bishop_black" }, { "g8", "knight_black" }, { "h8", "rook_black" },
         };
-        private List<string> enemyMines = new List<string>();
 
         public ManualResetEvent AddMineResetEvent = new ManualResetEvent(false);
         public ManualResetEvent LoadWindowResetEvent = new ManualResetEvent(false);
@@ -816,9 +815,9 @@ namespace Chess.Classes
                     {
                         WaitMines();
                     }
-                    else if (message.Contains("EnemyMines"))
+                    else if (message.Contains("Bomb"))
                     {
-                        ReceiveMines(message);
+                        ReceiveBoom(message);
                     }
                 }
             });
@@ -827,6 +826,22 @@ namespace Chess.Classes
         }
 
         #region Receive
+        private void ReceiveBoom(string message)
+        {
+            string cell = message.Split()[1];
+            if (figures[cell].Split("_")[1] == (myColor == Color.White ? "black" : "white"))
+            {
+                if (myColor == Color.White)
+                {
+                    window.Dispatcher.BeginInvoke((Action<string>)(a => window.RemoveMine(a)), cell);
+                }
+                else
+                {
+                    windowBlack.Dispatcher.BeginInvoke((Action<string>)(a => windowBlack.RemoveMine(a)), cell);
+                }
+            }
+            figures[cell] = "";
+        }
         private void WaitMines()
         {
             LoadWindowResetEvent.WaitOne();
@@ -839,14 +854,17 @@ namespace Chess.Classes
                 windowBlack.Dispatcher.BeginInvoke((Action)(() => windowBlack.WaitMines()));
             }
         }
-        private void ReceiveMines(string message)
-        {
-            string[] words = message.Split();
-            enemyMines.Add(words[1]);
-            enemyMines.Add(words[2]);
-        }
         private void ChooseMines()
         {
+            LoadWindowResetEvent.WaitOne();
+            if (myColor == Color.White)
+            {
+                window.Dispatcher.BeginInvoke((Action)(() => window.ChooseMines()));
+            }
+            else
+            {
+                windowBlack.Dispatcher.BeginInvoke((Action)(() => windowBlack.ChooseMines()));
+            }
             CanChooseMines = true;
             AddMineResetEvent.WaitOne();
             AddMineResetEvent.Reset();

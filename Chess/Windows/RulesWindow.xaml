@@ -5,19 +5,157 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess.Windows"
         mc:Ignorable="d"
-        Title="RulesWindow" Height="450" Width="800">
+        Title="Правила" Height="500" Width="800"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="NoResize">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="2">
-            <Label Content="Правила игры" HorizontalAlignment="Center"
-               VerticalAlignment="Center" FontSize="40"/>
-        </Border>
-        
-        
-        
+                <Border BorderBrush="Black" BorderThickness="2">
+                    <Label Content="Правила игры" HorizontalAlignment="Center"
+                            VerticalAlignment="Center" FontSize="35"/>
+                </Border>
+
+                <StackPanel Grid.Row="1" Margin="20">
+                    <TextBlock Text="Баллистическая ракета" FontSize="20"/>
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Начальная расстановка "/>
+                                <TextBlock Text="совпадает с классическими шахматами."/>
+                            </StackPanel>
+                            <TextBlock Text="- На 5 ходу ладья на ферзевом фланге заменяется на баллистическую ракету."/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Передвижение"/>
+                                <TextBlock Text=": Ракета ходит, как король (на 1 клетку в любую сторону). Ракета может есть фигуры, как король."/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Атака"/>
+                                <TextBlock Text=": Ракета передвигается по горизонтали или вертикали до конца доски, уничтожая все (свои или чужие) фигуры на пути и "/>
+                            </StackPanel>
+                            <TextBlock Text="  самоуничтожаясь в конце хода."/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Примечания"/>
+                                <TextBlock Text=":"/>
+                            </StackPanel>
+                            <BulletDecorator Margin="20, 0, 0, 0">
+                                <BulletDecorator.Bullet>
+                                    <Ellipse Height="5" Width="5" Fill="black" VerticalAlignment="Center"/>
+                                </BulletDecorator.Bullet>
+                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="2, 0, 0, 0">
+                                    Баллистическая ракета не может поставить мат, ее нельзя направить на короля.
+                                </TextBlock>
+                            </BulletDecorator>
+                            <BulletDecorator Margin="20, 0, 0, 0">
+                                <BulletDecorator.Bullet>
+                                    <Ellipse Height="5" Width="5" Fill="Black" VerticalAlignment="Center"/>
+                                </BulletDecorator.Bullet>
+                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="2, 0, 0, 0">
+                                    Если на ракету нельзя заменить ладью ферзевого фланга (ладья ходила или была съедена), в нее превратится ладья на королевском фланге.
+                                </TextBlock>
+                            </BulletDecorator>
+                            <BulletDecorator Margin="20, 0, 0, 0">
+                                <BulletDecorator.Bullet>
+                                    <Ellipse Height="5" Width="5" Fill="Black" VerticalAlignment="Center"/>
+                                </BulletDecorator.Bullet>
+                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="2, 0, 0, 0">
+                                    Если же обе ладьи не могут быть заменены на ракету, она не появляется.
+                                </TextBlock>
+                            </BulletDecorator>
+                            <BulletDecorator Margin="20, 0, 0, 0">
+                                <BulletDecorator.Bullet>
+                                    <Ellipse Height="5" Width="5" Fill="Black" VerticalAlignment="Center"/>
+                                </BulletDecorator.Bullet>
+                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="2, 0, 0, 0">
+                                    Если ракета совершает взятие как король (переходом на соседнюю клетку), то она не самоуничтожается.
+                                </TextBlock>
+                            </BulletDecorator>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="2" Margin="20">
+                    <TextBlock Text="Военная полиция" FontSize="20"/>
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Начальная расстановка "/>
+                                <TextBlock Text="совпадает с классическими шахматами, но один из слонов заменен на военную полицию."/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Передвижение"/>
+                                <TextBlock Text=": Военная полиция двигается, как слон (по диагонали), может совершать взятие, как слон."/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Атака"/>
+                                <TextBlock Text=": Военная полиция мгновенно уничтожает любую вражескую фигуру, совершающую взятие в радиусе 2 клеток"/>
+                            </StackPanel>
+                            <TextBlock Text="  вокруг нее. Уничтожение фигуры, совершающей взятие, не занимает ход: она съедается автоматически."/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Примечания"/>
+                                <TextBlock Text=": Военная полиция не может атаковать короля. Военная полиция может совершать автоматическое взятие сквозь"/>
+                            </StackPanel>
+                            <TextBlock Text="  свои и чужие фигуры."/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="3" Margin="20">
+                    <TextBlock Text="Танк" FontSize="20"/>
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Начальная расстановка "/>
+                                <TextBlock Text="совпадает с классическими шахматами, совпадает с классическими шахматами, но вместо одной из"/>
+                            </StackPanel>
+                            <TextBlock Text="  ладей стоит танк."/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Передвижение"/>
+                                <TextBlock Text=": Танк передвигается, как король (на одну клетку в любую сторону). Танк может есть фигуры противника, "/>
+                            </StackPanel>
+                            <TextBlock Text="  как король."/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="- "/>
+                                <TextBlock TextDecorations="Underline" Text="Атака"/>
+                                <TextBlock Text=": Танк может &quot;выстрелить&quot;, уничтожая фигуру, находящуюся на расстоянии до 5 клеток по горизонтали или вертикали, но не перемещаясь при этом на ее место."/>
+                            </StackPanel>
+                            <TextBlock Text="  вокруг нее. Уничтожение фигуры, совершающей взятие, не занимает ход: она съедается автоматически."/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="4" Margin="20">
+                    <TextBlock Text="Танк &amp; Мины" FontSize="20"/>
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="В четвертом дополнении, помимо танков, в игру вступают мины. Мины расставляются игроками до начала игры, они невидимы"/>
+                            <TextBlock Text="для оппонента. Белый игрок может расставить 2 мины на любую свободную клетку от 1 до 5 горизонтали, черный - от 8 до 4."/>
+                            <TextBlock Text="При попадании на мину вражеские фигуры взрываются, уничтожая при этом и мину."/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>

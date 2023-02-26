@@ -163,6 +163,7 @@ namespace ChessServer.Classes
                 mines.Add(words[2], Color.White);
                 Send(player_white, "Wait mines");
                 Send(player_black, $"EnemyMines {words[1]} {words[2]}");
+                Thread.Sleep(50);
                 Send(player_black, $"CHOOSE MINES");
                 ReceiveMessageResetEvent.WaitOne();
                 ReceiveMessageResetEvent.Reset();
@@ -569,12 +570,26 @@ namespace ChessServer.Classes
                 }
             }
 
+
+            string message_bomb = "";
+            if (mines.Keys.Contains(to) && mines[to] != player.Figures[fig].Color)
+            {
+                message_bomb = $"Bomb {to}";
+                figures[to] = null;
+                player.Figures[fig].IsActive = false;
+            }
+
             bool check = Check(player.Color == Color.White ? player_black : player_white);
 
             Send(player, $"Move ok" + (check ? " check" : " nocheck"));
             Console.WriteLine($"Move ok" + (check ? " check" : " nocheck"));
             Send(enemy, "Moved " + words[1] + " " + from + " " + to + (check ? " check" : " nocheck") + " " + words[5] + (enPassant ? " enPassant " + enPassantPawnCell : " noPassant 0"));
             Thread.Sleep(100);
+            if (message_bomb != "")
+            {
+                Send(players, message_bomb);
+                Thread.Sleep(50);
+            }
             if (check)
             {
                 if (CheckMate(enemy, player))

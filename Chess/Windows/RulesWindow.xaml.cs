@@ -20,6 +20,7 @@ namespace Chess.Windows
         public RulesWindow()
         {
             InitializeComponent();
+            //imgDot.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("Images") + "\\" + "dot.png"));
         }
     }
 }

@@ -100,7 +100,7 @@ namespace ChessServer
                                 }
                             }
                         }
-                        if (message.Contains("Move"))
+                        if (message.Contains("Move") || message.Contains("Mines"))
                         {
                             games[p.GameIndex].ReceiveMessageResetEvent.Set();
                             games[p.GameIndex].Message = message;

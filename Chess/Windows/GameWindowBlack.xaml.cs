@@ -197,7 +197,7 @@ namespace Chess
             if (client.Mines.Count < 2)
             {
                 string cell = (sender as Button).DataContext.ToString();
-                if (Convert.ToInt32(cell[1]) > 4 && !client.Mines.Contains(cell))
+                if (Convert.ToInt32(cell[1].ToString()) > 3 && !client.Mines.Contains(cell))
                 {
                     client.Mines.Add(cell);
                     if (client.Mines.Count == 1)
@@ -208,6 +208,7 @@ namespace Chess
                     {
                         lblMine2.Content = $"2. {cell}";
                     }
+                    client.AddMineResetEvent.Set();
                 }
             }
         }
@@ -220,6 +221,20 @@ namespace Chess
         public void ChooseMines()
         {
             MessageBox.Show(this, "Расставьте мины. Для того, чтобы поставить мину, нажмите правой кнопкой мыши на нужную клетку.");
+        }
+
+        public void RemoveMine(string cell)
+        {
+            if (lblMine1.Content.ToString() == $"1. {cell}")
+            {
+                string cell2 = lblMine2.Content.ToString().Split()[1];
+                lblMine1.Content = $"1. {cell2}";
+                lblMine2.Content = "2.";
+            }
+            else
+            {
+                lblMine2.Content = "2.";
+            }
         }
     }
 }

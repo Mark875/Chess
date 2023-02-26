@@ -156,7 +156,8 @@
                         FontSize="25" Content="Правила" Click="btnRules_Click"/>
             </StackPanel>
 
-            <Grid Grid.Column="1" Width="800" Height="800" ShowGridLines="False" HorizontalAlignment="Right">
+            <Grid Grid.Column="1" Width="800" Height="800" ShowGridLines="False" HorizontalAlignment="Right"
+                  Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*"/>
                     <ColumnDefinition/>
