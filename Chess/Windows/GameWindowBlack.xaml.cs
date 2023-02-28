@@ -176,6 +176,12 @@ namespace Chess
                         Close();
                     }
                     break;
+                case "Stalemate":
+                    if (MessageBox.Show(this, "Пат", "Ничья", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
+                    {
+                        Close();
+                    }
+                    break;
                 default:
                     break;
             }

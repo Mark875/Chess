@@ -592,17 +592,26 @@ namespace ChessServer.Classes
             }
             if (check)
             {
-                if (CheckMate(enemy, player))
+                if (CheckmateOrStalemate(enemy, player))
                 {
                     gameOver = true;
                     Send(players, $"CHECKMATE {player.Color}");
                     Console.WriteLine($"CHECKMATE {player.Color}");
                 }
             }
+            else
+            {
+                if (CheckmateOrStalemate(enemy, player))
+                {
+                    gameOver = true;
+                    Send(players, $"STALEMATE {enemy.Color}");
+                    Console.WriteLine($"CHECKMATE {player.Color}");
+                }
+            }
         }
 
-        #region Мат
-        private bool CheckMate(Player player, Player enemy)
+        #region Мат/Пат
+        private bool CheckmateOrStalemate(Player player, Player enemy)
         {
             foreach (Figure f in player.Figures)
             {

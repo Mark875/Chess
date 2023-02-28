@@ -468,8 +468,12 @@ namespace Chess.Classes
             enPassantColumn = "0";
             isMissileCharged = false;
             inquisition_cell = "";
-            moveResetEvent = new ManualResetEvent(false);
+            moveResetEvent.Reset();
+            AddMineResetEvent.Reset();
+            LoadWindowResetEvent.Reset();
             IsInquisitionInGame = false;
+            CanChooseMines = false;
+            Mines.Clear();
         }
 
         #region Проверка хода
@@ -763,6 +767,10 @@ namespace Chess.Classes
                         Checkmate(message.Split()[1] == "White" ? Color.White : Color.Black);
                         stop = true;
                     }
+                    else if (message.Contains("STALEMATE"))
+                    {
+                        Stalemate(message.Split()[1] == "White" ? Color.White : Color.Black);
+                    }
                     else if (message.Contains("GaveUp"))
                     {
                         PlayerGaveUp();
@@ -882,6 +890,19 @@ namespace Chess.Classes
             else
             {
                 windowBlack.Dispatcher.Invoke(() => windowBlack.EndGame("Checkmate", color, color == myColor));
+            }
+            ResetGame();
+        }
+
+        private void Stalemate(Color color)
+        {
+            if (myColor == Color.White)
+            {
+                window.Dispatcher.Invoke(() => window.EndGame("Stalemate"));
+            }
+            else
+            {
+                windowBlack.Dispatcher.Invoke(() => windowBlack.EndGame("Stalemate"));
             }
             ResetGame();
         }
