@@ -118,7 +118,7 @@ namespace Chess
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             client.Send("Bye");
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
     }
 }
