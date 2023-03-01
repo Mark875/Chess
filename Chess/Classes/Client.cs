@@ -837,6 +837,7 @@ namespace Chess.Classes
         private void ReceiveBoom(string message)
         {
             string cell = message.Split()[1];
+            figures[cell] = "";
             if (figures[cell].Split("_")[1] == (myColor == Color.White ? "black" : "white"))
             {
                 if (myColor == Color.White)
@@ -848,7 +849,6 @@ namespace Chess.Classes
                     windowBlack.Dispatcher.BeginInvoke((Action<string>)(a => windowBlack.RemoveMine(a)), cell);
                 }
             }
-            figures[cell] = "";
         }
         private void WaitMines()
         {
@@ -956,7 +956,7 @@ namespace Chess.Classes
             isMyMove = message.Split()[1] == (myColor == Color.White ? "white" : "black");
             if (isMyMove)
             {
-                if (myColor == Color.White && move == 1 && Mines.Count > 0)
+                if (myColor == Color.White && move == 0 && Mines.Count > 0)
                 {
                     window.Dispatcher.BeginInvoke((Action)(() => window.CanMove()));
                 }

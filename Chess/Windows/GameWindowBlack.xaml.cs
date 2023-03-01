@@ -241,6 +241,7 @@ namespace Chess
             {
                 lblMine2.Content = "2.";
             }
+            UpdateDesk();
         }
     }
 }

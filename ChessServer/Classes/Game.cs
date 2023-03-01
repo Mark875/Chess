@@ -296,20 +296,25 @@ namespace ChessServer.Classes
             }
 
             int fig = player.Figures.IndexOf(player.Figures.Find(x => x.Type == type && x.X == a && x.Y == b));
+            bool hasMoved = false;
+
             if (type == FigureType.Tank && beat)
             {
                 figures[to] = null;
+                hasMoved = true;
             }
             else if (beat)
             {
                 player.Figures[fig].Move(to);
                 figures[from] = null;
                 figures[to] = player.Figures[fig];
+                hasMoved = true;
             }
 
             if (type == FigureType.Missile && !player.Figures[fig].IsCharged && to == from)
             {
                 player.Figures[fig].IsCharged = true;
+                hasMoved = true;
             }
 
             if (type == FigureType.Missile && !beat && player.Figures[fig].IsCharged && to != from)
@@ -332,6 +337,20 @@ namespace ChessServer.Classes
                         player.Figures[rook].Move("d1");
                     }
                 }
+                else
+                {
+                    if (to == "g8")
+                    {
+                        rook = player.Figures.IndexOf(player.Figures.Find(x => x.Type == FigureType.Rook && x.Cell == "h8"));
+                        player.Figures[rook].Move("f8");
+                    }
+                    else
+                    {
+                        rook = player.Figures.IndexOf(player.Figures.Find(x => x.Type == FigureType.Rook && x.Cell == "a8"));
+                        player.Figures[rook].Move("d8");
+                    }
+                }
+                hasMoved = true;
             }
             if (beat)
             {
@@ -345,6 +364,7 @@ namespace ChessServer.Classes
                 prev_inq_pos = enemy.Figures[inquisition_id].Cell;
                 enemy.Figures[inquisition_id].Move(to);
                 figures[inquisition_cell] = null;
+                hasMoved = true;
             }
             if (enPassant)
             {
@@ -398,6 +418,13 @@ namespace ChessServer.Classes
                         }
                     }
                 }
+            }
+
+            if (!hasMoved)
+            {
+                player.Figures[fig].Move(to);
+                figures[from] = null;
+                figures[to] = player.Figures[fig];
             }
 
 

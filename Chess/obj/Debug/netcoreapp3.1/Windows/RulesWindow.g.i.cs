@@ -53,7 +53,7 @@ namespace Chess.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Chess;component/windows/ruleswindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Chess;V1.0.0.0;component/windows/ruleswindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\RulesWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
