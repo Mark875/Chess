@@ -230,6 +230,14 @@ namespace ChessServer.Classes
                     }
                 }
             }
+
+            player_white.Figures = new List<Figure>();
+            player_black.Figures = new List<Figure>();
+            player_white.GameIndex = -1;
+            player_black.GameIndex = -1;
+            player_white = null;
+            player_black = null;
+            players = new List<Player>();
         }
 
         public void PlayerGaveUp(Color color)
@@ -242,13 +250,7 @@ namespace ChessServer.Classes
             {
                 Send(player_white, "GaveUp");
             }
-            player_white.Figures = new List<Figure>();
-            player_black.Figures = new List<Figure>();
-            player_white.GameIndex = -1;
-            player_black.GameIndex = -1;
-            player_white = null;
-            player_black = null;
-            players = new List<Player>();
+            gameOver = true;
         }
 
         private void Send(List<Player> players, string message)
@@ -609,9 +611,9 @@ namespace ChessServer.Classes
             bool check = Check(player.Color == Color.White ? player_black : player_white);
 
             Send(player, $"Move ok" + (check ? " check" : " nocheck"));
-            Console.WriteLine($"Move ok" + (check ? " check" : " nocheck"));
             Send(enemy, "Moved " + words[1] + " " + from + " " + to + (check ? " check" : " nocheck") + " " + words[5] + (enPassant ? " enPassant " + enPassantPawnCell : " noPassant 0"));
-            Thread.Sleep(100);
+            Console.WriteLine($"Move ok" + (check ? " check" : " nocheck"));
+            Thread.Sleep(50);
             if (message_bomb != "")
             {
                 Send(players, message_bomb);

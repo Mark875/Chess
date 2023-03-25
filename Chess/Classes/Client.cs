@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Chess.Classes
 {
@@ -125,6 +126,7 @@ namespace Chess.Classes
             }
             Send("Move " + $"{figures[chosenCell]} {chosenCell} {cell} {(beat ? "beat" : "nothing")} noChange {(moveEnPassant ? "enPassant" : "noPassant")}");
             moveResetEvent.WaitOne();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
             if (isMyMove)
             {
@@ -179,6 +181,8 @@ namespace Chess.Classes
             }
             else
             {
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
                 figures[cell] = chosenFigure;
                 if (cell != chosenCell)
                 {
@@ -837,7 +841,6 @@ namespace Chess.Classes
         private void ReceiveBoom(string message)
         {
             string cell = message.Split()[1];
-            figures[cell] = "";
             if (figures[cell].Split("_")[1] == (myColor == Color.White ? "black" : "white"))
             {
                 if (myColor == Color.White)
@@ -848,6 +851,17 @@ namespace Chess.Classes
                 {
                     windowBlack.Dispatcher.BeginInvoke((Action<string>)(a => windowBlack.RemoveMine(a)), cell);
                 }
+            }
+            figures[cell] = "";
+            if (myColor == Color.White)
+            {
+                window.Dispatcher.BeginInvoke((Action)(() => window.UpdateDesk()));
+                window.Dispatcher.BeginInvoke((Action<string>)(a => window.AddMove(a)), "boom ");
+            }
+            else
+            {
+                windowBlack.Dispatcher.BeginInvoke((Action)(() => windowBlack.UpdateDesk()));
+                windowBlack.Dispatcher.BeginInvoke((Action<string>)(a => windowBlack.AddMove(a)), "boom ");
             }
         }
         private void WaitMines()

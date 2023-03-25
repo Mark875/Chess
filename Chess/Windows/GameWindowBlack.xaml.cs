@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Chess.Classes;
 using System.Threading;
+using Chess.Windows;
 
 namespace Chess
 {
@@ -129,7 +130,7 @@ namespace Chess
 
         public void MbShow(string message)
         {
-            MessageBox.Show(this, message);
+            MessageBox.Show(this, message, "Изменение фигуры", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
         private void btnDraw_Click(object sender, RoutedEventArgs e)
@@ -194,7 +195,7 @@ namespace Chess
 
         private void btnRules_Click(object sender, RoutedEventArgs e)
         {
-
+            new RulesWindow().ShowDialog();
         }
 
         private void btn_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

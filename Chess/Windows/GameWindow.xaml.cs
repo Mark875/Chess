@@ -264,9 +264,16 @@ namespace Chess
         {
             if (lblMine1.Content.ToString() == $"1. {cell}")
             {
-                string cell2 = lblMine2.Content.ToString().Split()[1];
-                lblMine1.Content = $"1. {cell2}";
-                lblMine2.Content = "2.";
+                if (lblMine2.Content.ToString() != "2.")
+                {
+                    string cell2 = lblMine2.Content.ToString().Split()[1];
+                    lblMine1.Content = $"1. {cell2}";
+                    lblMine2.Content = "2.";
+                }
+                else
+                {
+                    lblMine1.Content = "1.";
+                }
             }
             else
             {
