@@ -150,7 +150,8 @@ namespace ChessServer.Classes
 
                 figures[player_white.Figures[fig1].Cell] = player_white.Figures[fig1];
                 figures[player_black.Figures[fig2].Cell] = player_black.Figures[fig2];
-                //Send(players, $"Figure inquisition {player_white.Figures[fig1].Cell} {player_black.Figures[fig2].Cell}");
+                Thread.Sleep(1250);
+                Send(players, $"Figure inquisition {player_white.Figures[fig1].Cell} {player_black.Figures[fig2].Cell}");
             }
             if (extra_figure == "tankmines")
             {
@@ -175,6 +176,7 @@ namespace ChessServer.Classes
             while (!gameOver && ContinuePlaying)
             {
                 Move(player_white, player_black);
+                if (gameOver || !ContinuePlaying) break;
                 Move(player_black, player_white);
                 move++;
                 Thread.Sleep(5);
@@ -1105,6 +1107,11 @@ namespace ChessServer.Classes
                     inquisition_cell = c;
                     break;
                 }
+            }
+
+            if (inquisition_cell == "")
+            {
+                return false;
             }
 
             int to_row = Convert.ToInt32(cell[1].ToString());

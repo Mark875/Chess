@@ -1008,6 +1008,7 @@ namespace Chess.Classes
 
             figures[white_new_figure] = new_figure + "_white";
             figures[black_new_figure] = new_figure + "_black";
+            LoadWindowResetEvent.WaitOne();
             if (myColor == Color.White)
             {
                 window.Dispatcher.BeginInvoke((Action)(() => window.UpdateDesk()));
